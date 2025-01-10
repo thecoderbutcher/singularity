@@ -1,4 +1,5 @@
-import { HiLockClosed, HiTrash, HiOutlineSignal, HiDocumentPlus} from "react-icons/hi2";
+import { HiLockClosed, HiTrash, HiOutlineSignal} from "react-icons/hi2";
+import { PiListPlusBold } from "react-icons/pi";
 
 const Plaulists = () => {
   return (
@@ -24,16 +25,16 @@ const Plaulists = () => {
             </div>
         </div>
         <div className="flex justify-center items-center gap-4">
-            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-105 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
-                <HiDocumentPlus />
+            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-125 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
+                <PiListPlusBold />
             </div>
-            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-105 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
+            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-125 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
                 <HiOutlineSignal />
             </div>
-            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-105 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
+            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-125 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
                 <HiLockClosed />
             </div>
-            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-105 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
+            <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-125 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
                 <HiTrash />
             </div>
         </div>

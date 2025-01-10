@@ -9,11 +9,11 @@ const MusicDetails = () => {
         <div className="w-full h-[1px] bg-gradient-to-r from-accent to-accent-dark mt-2"></div>
 
         <div className="flex gap-4 justify-center items-center p-2">
-            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-110 rounded-md transi duration-200"><HiPlus/></div>
-            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-110 rounded-md transi duration-200"><HiMinus/></div>
-            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-110 rounded-md transi duration-200"><HiOutlineHeart/></div>
-            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-110 rounded-md transi duration-200"><HiPencil/></div>
-            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-110 rounded-md transi duration-200"><HiArrowsUpDown/></div>
+            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-125 rounded-md transition-all duration-200"><HiPlus/></div>
+            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-125 rounded-md transition-all duration-200"><HiMinus/></div>
+            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-125 rounded-md transition-all duration-200"><HiOutlineHeart/></div>
+            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-125 rounded-md transition-all duration-200"><HiPencil/></div>
+            <div className="border border-accent p-1 text-accent hover:text-primary hover:bg-accent hover:scale-125 rounded-md transition-all duration-200"><HiArrowsUpDown/></div>
         </div>
         <div className="flex flex-col gap-2 mt-4">
             <div className="flex gap-1 items-center"><HiPlay className="text-accent"/> <span className="text-secondary-dark">Song played name</span></div>

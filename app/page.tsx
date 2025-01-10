@@ -4,6 +4,7 @@ import Footer from "./(components)/Footer";
 import MusicDetails from "./MusicDetails/pages";
 import ControlMusic from "./ControlMusic/page";
 import Plaulists from "./Playlists/page";
+import SongList from "./SongList/page";
 
 export default function Home() {
   return (
@@ -11,10 +12,7 @@ export default function Home() {
       <Topbar />
       <div className="grid flex-1 grid-cols-12">
         <MusicDetails/>
-        
-        <div className="col-span-7 ">
-        </div>
-        
+        <SongList/>
         <Plaulists/>
       </div>
       <ControlMusic />
