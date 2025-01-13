@@ -1,5 +1,7 @@
 import { HiHeart, HiOutlineHeart, HiPencil, HiMinus, HiPlus, HiArrowsUpDown} from "react-icons/hi2";
 import { HiUser, HiPlay, HiDocument, HiViewColumns} from "react-icons/hi2";
+
+
 const MusicDetails = () => {
   return (
     <div className="col-span-3 flex flex-col p-8 border-r border-r-accent">
@@ -21,6 +23,7 @@ const MusicDetails = () => {
             <div className="flex gap-1 items-center"><HiViewColumns className="text-accent"/> <span>Album name</span></div>
             <div className="flex gap-1 items-center"><HiDocument className="text-accent"/> <span>File metadata info</span></div>
         </div>
+        <div>{}</div>
     </div>
   )
 }
