@@ -65,8 +65,7 @@ const SongList = () => {
         <div className="flex flex-1 gap-2 justify-end items-end">
             <BtnAddSong />
             <BtnDeleteSong />
-            <BtnAddFolderSong />
-            
+            <BtnAddFolderSong /> 
         </div>
     </div>
   )

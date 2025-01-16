@@ -1,21 +1,55 @@
-import Modal from "@/app/(components)/Modal"
-import { useState } from "react";
+import { use, useState } from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
+import usePlaylistsStore from "@/zustand/playlistStore"
+import Modal from "@/app/(components)/Modal"
+
 interface ModalAddSongProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
 const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
+    const playlistId = usePlaylistsStore((state) => state.playlistSelectedId);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const [audioName, setAudioName] = useState<string | null>(null);
-
-    const handkeFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [audioFile, setAudioFile] = useState<File | null>(null);
+    const [loading, setLoading] = useState(false);
+ 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
+        if (file && (file.type == 'audio/MP3'|| file?.type == 'audio/mpeg')) {
             setAudioSrc(URL.createObjectURL(file));
+            setAudioFile(file)
             setAudioName(file.name); 
         }
+        else{
+            alert("Please select a mp3 file");
+        }
+    }
+
+    const handleSubmit = async (e: React.FormEvent) =>{
+        e.preventDefault();
+        if(!audioFile || !playlistId){
+            alert("Please select a file and playlist");
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append("file", audioFile)
+        formData.append("playlistId", playlistId.toString())
+        setLoading(true)
+
+        try{
+            const response = await fetch("/api/songs/upload",{
+                method:"POST",
+                body:formData,
+            })
+
+            if(response.ok){
+                
+            }
+        }
+
     }
     return (
         <Modal isOpen={isOpen} onClose={onClose}> 
@@ -29,7 +63,7 @@ const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
                     name="file" 
                     id="file-input"
                     accept="audio/mp3"
-                    onChange={handkeFileChange} 
+                    onChange={handleFileChange} 
                 />
                 {audioSrc && (
                     <div className="flex flex-col gap-4 mt-4">
@@ -42,8 +76,9 @@ const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
                 <div className="flex gap-8 mt-4 justify-center items-center ">
                     <button 
                         className="bg-secondary text-primary hover:bg-accent hover:text-secondary rounded-md py-1 px-4 hover:scale-110 transition-all duration-300"
+                        disabled={loading}
                     >
-                        Add song
+                        {loading ? "Adding..." : "Add song"}
                     </button>
                     <button 
                         className="bg-primary-dark/50 text-secondary border border-secondary/20 hover:bg-accent-dark rounded-md py-1 px-4 hover:scale-110 transition-all duration-300"

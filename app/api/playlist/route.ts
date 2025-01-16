@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'; 
 import { prisma } from '@/lib/prisma'; 
+import path from 'path';
+import fs from "fs";
 
 export async function GET() {
     try {
@@ -26,7 +28,14 @@ export async function POST(request: NextRequest) {
                 name,
                 description,
             },
-        }); 
+        });
+        
+        // Create a directory for the playlist
+        const playlistDir = path.join(process.cwd(), 'public', 'songs', playlist.name);
+        if (!fs.existsSync(playlistDir)) {
+            fs.mkdirSync(playlistDir);
+        }
+
         return NextResponse.json(playlist, { status: 201 });
     } catch (error: any) {
         return NextResponse.json({ error: 'Failed to create playlist', details: error.message }, { status: 500 });
