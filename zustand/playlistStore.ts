@@ -12,6 +12,8 @@ interface PlaylistStore {
     addPlaylist: (playlist: Playlist) => void;
     removePlaylist: (id: number) => void;
     updatePlaylist: (id: number, playlist: Partial<Playlist>) => void;
+    playlistSelectedId: number;
+    setPlaylistSelectedId: (id: number) => void; 
 }
 
 const usePlaylistStore = create<PlaylistStore>((set) => ({
@@ -25,7 +27,10 @@ const usePlaylistStore = create<PlaylistStore>((set) => ({
     )),
     updatePlaylist: (id, playlist) => set((state) => (
         { playlists: state.playlists.map((playlistUpdated) => playlistUpdated.id === id ? { ...playlistUpdated, ...playlist } : playlistUpdated) }
-    ))
+    )),
+    playlistSelectedId: 0,
+    setPlaylistSelectedId: (id:number) => set({ playlistSelectedId: id }), 
+
 }))
 
 export default usePlaylistStore

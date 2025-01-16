@@ -1,7 +1,9 @@
+
 import { GiSoundWaves } from "react-icons/gi";
 import { PiListMagnifyingGlassLight } from "react-icons/pi";
-import { FaFolderTree } from "react-icons/fa6";
-import { PiMusicNotesMinusFill, PiMusicNotesPlusFill} from "react-icons/pi";
+import BtnAddSong from "./(components)/BtnAddSong";
+import BtnDeleteSong from "./(components)/BtnDeleteSong";
+import BtnAddFolderSong from "./(components)/BtnAddFolderSong";
 
 const SongList = () => {
   return (
@@ -61,15 +63,10 @@ const SongList = () => {
             </div>
         </div>
         <div className="flex flex-1 gap-2 justify-end items-end">
-            <button className="border border-accent/80 text-accent px-2 py-1 rounded-md hover:bg-accent hover:text-primary hover:scale-125 transition-all duration-200">
-                <PiMusicNotesPlusFill />
-            </button>
-            <button className="border border-accent/80 text-accent px-2 py-1 rounded-md hover:bg-accent hover:text-primary hover:scale-125 transition-all duration-200">
-                <PiMusicNotesMinusFill />
-            </button>
-            <button className="border border-accent/80 text-accent px-2 py-1 rounded-md hover:bg-accent hover:text-primary hover:scale-125 transition-all duration-200">
-                <FaFolderTree />
-            </button>
+            <BtnAddSong />
+            <BtnDeleteSong />
+            <BtnAddFolderSong />
+            
         </div>
     </div>
   )

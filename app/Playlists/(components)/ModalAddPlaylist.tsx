@@ -1,13 +1,14 @@
 import { useState } from "react";
 import Modal from "@/app/(components)/Modal" 
 import usePlaylistsStore from "@/zustand/playlistStore"
+import { IoAddCircleOutline } from "react-icons/io5";
 
 interface AddPlaylistModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const AddPlaylistModal: React.FC<AddPlaylistModalProps> = ({ isOpen, onClose }) => {
+const ModalAddPlaylist: React.FC<AddPlaylistModalProps> = ({ isOpen, onClose }) => {
     const [playlistName, setPlaylistName] = useState("");
     const [playlistDescription, setPlaylistDescription] = useState("");
     const [userId, setUserId] = useState(1);
@@ -48,8 +49,11 @@ const AddPlaylistModal: React.FC<AddPlaylistModalProps> = ({ isOpen, onClose }) 
 
     return (
       <Modal isOpen={isOpen} onClose={onClose}>
-        <div className="flex flex-col gap-4 justify-center items-center">
-            <h2 className="font-semibold">Add new playlist</h2>
+        <div className="flex flex-col gap-6 justify-center items-center">
+            <h2 className="flex items-center gap-1 font-semibold text-lg">
+                <IoAddCircleOutline className="text-accent-dark text-2xl"/>
+                <span>Add new playlist</span> 
+            </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4"> 
                 <input 
                     type="text" 
@@ -71,7 +75,7 @@ const AddPlaylistModal: React.FC<AddPlaylistModalProps> = ({ isOpen, onClose }) 
                 </textarea>
                 <button 
                     type="submit"
-                    className="bg-secondary/80 text-primary  py-1 rounded-md hover:bg-accent hover:text-secondary hover:scale-110 transition-all duration-200"
+                    className="bg-secondary/80 text-primary py-1 rounded-md hover:bg-accent hover:text-secondary hover:scale-110 transition-all duration-200"
                     >
                     Add playlist
                 </button>
@@ -81,4 +85,4 @@ const AddPlaylistModal: React.FC<AddPlaylistModalProps> = ({ isOpen, onClose }) 
   )
 }
 
-export default AddPlaylistModal
+export default ModalAddPlaylist

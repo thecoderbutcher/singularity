@@ -4,9 +4,11 @@ import { useEffect, useState  } from "react"
 import usePlaylistsStore from "@/zustand/playlistStore"
 
 const ListPlaylist = () => {
+    const [loading, setLoading] = useState(true);
     const playlists = usePlaylistsStore((state) => state.playlists);
     const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
-    const [loading, setLoading] = useState(true);
+    const playlistSelectedId = usePlaylistsStore((state) => state.playlistSelectedId);
+    const setPlaylistSelectedId = usePlaylistsStore((state) => state.setPlaylistSelectedId);
 
     useEffect(() => {
         if (!playlists.length) {
@@ -36,15 +38,23 @@ const ListPlaylist = () => {
         );
     }
 
+    const selectPlaylist = (id: number) => {
+        setPlaylistSelectedId(id);
+    }
+
     return (
         <div className="flex flex-col justify-start items-center gap-6 py-8 px-10 w-full flex-1"> 
-            <div className="w-full flex justify-center items-center bg-secondary-dark text-primary rounded-md py-2 cursor-pointer">
+            <button 
+                className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlistSelectedId == 0 ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
+                onClick={() => {selectPlaylist(0)}}
+            >
                 DEFAULT 
-            </div>
+            </button>
             { playlists.map((playlist) => (    
                 <button 
                     key={playlist.id} 
-                    className="w-full flex justify-center items-center bg-primary-dark/50 text-secondary border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer"
+                    className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlist.id == playlistSelectedId ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
+                    onClick={() => {selectPlaylist(playlist.id)}}
                 >
                     {playlist.name} 
                 </button>
