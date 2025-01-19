@@ -1,7 +1,8 @@
 import { use, useState } from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import usePlaylistsStore from "@/zustand/playlistStore"
-import Modal from "@/app/(components)/Modal"
+import Modal from "@/app/(components)/Modal" 
+import { parseBlob } from "music-metadata";
 
 interface ModalAddSongProps {
     isOpen: boolean;
@@ -10,6 +11,7 @@ interface ModalAddSongProps {
 
 const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
     const playlistId = usePlaylistsStore((state) => state.playlistSelectedId);
+    const playlistName = usePlaylistsStore((state)=> state.playlistSelectedName);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const [audioName, setAudioName] = useState<string | null>(null);
     const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -34,35 +36,46 @@ const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
             return;
         }
         
-        const formData = new FormData();
+        const formData = new FormData(); 
         formData.append("file", audioFile)
         formData.append("playlistId", playlistId.toString())
+        formData.append("playlistName", playlistName)   
+        
         setLoading(true)
 
         try{
-            const response = await fetch("/api/songs/upload",{
+            const response = await fetch("/api/song",{
                 method:"POST",
                 body:formData,
             })
 
             if(response.ok){
-                
+                setAudioFile(null)
+                onClose()
             }
+            else{
+                const error = await response.json()                
+            }
+        } catch(error){
+            console.log(error)
+        } finally{
+            setLoading(false)
         }
-
     }
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}> 
             <h2 className="flex justify-center items-center text-center gap-1 text-lg mb-4">
                 <IoAddCircleOutline className="text-accent-dark text-2xl"/>
                 <span className="font-semibold">Add a song</span> 
             </h2>
-            <form action="" className="flex flex-col">
+            <form onSubmit={handleSubmit} className="flex flex-col">
                 <input 
                     type="file" 
                     name="file" 
                     id="file-input"
                     accept="audio/mp3"
+                    required
                     onChange={handleFileChange} 
                 />
                 {audioSrc && (
@@ -76,7 +89,7 @@ const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
                 <div className="flex gap-8 mt-4 justify-center items-center ">
                     <button 
                         className="bg-secondary text-primary hover:bg-accent hover:text-secondary rounded-md py-1 px-4 hover:scale-110 transition-all duration-300"
-                        disabled={loading}
+                        disabled={loading} 
                     >
                         {loading ? "Adding..." : "Add song"}
                     </button>

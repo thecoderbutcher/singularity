@@ -14,6 +14,8 @@ interface PlaylistStore {
     updatePlaylist: (id: number, playlist: Partial<Playlist>) => void;
     playlistSelectedId: number;
     setPlaylistSelectedId: (id: number) => void; 
+    playlistSelectedName: string;
+    setPlaylistSelectedName:(name:string) => void;
 }
 
 const usePlaylistStore = create<PlaylistStore>((set) => ({
@@ -30,6 +32,8 @@ const usePlaylistStore = create<PlaylistStore>((set) => ({
     )),
     playlistSelectedId: 0,
     setPlaylistSelectedId: (id:number) => set({ playlistSelectedId: id }), 
+    playlistSelectedName: "DEFAULT",
+    setPlaylistSelectedName:(name:string) => set({ playlistSelectedName: name })
 
 }))
 

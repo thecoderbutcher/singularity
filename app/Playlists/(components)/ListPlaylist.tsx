@@ -9,6 +9,13 @@ const ListPlaylist = () => {
     const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
     const playlistSelectedId = usePlaylistsStore((state) => state.playlistSelectedId);
     const setPlaylistSelectedId = usePlaylistsStore((state) => state.setPlaylistSelectedId);
+    const playlistSelectedName = usePlaylistsStore((state) => state.playlistSelectedName)
+    const setPlaylistSelectedName = usePlaylistsStore((state) => state.setPlaylistSelectedName) 
+    
+    const selectPlaylist = (id: number, name:string) => {
+        setPlaylistSelectedId(id);
+        setPlaylistSelectedName(name);
+    }
 
     useEffect(() => {
         if (!playlists.length) {
@@ -25,9 +32,9 @@ const ListPlaylist = () => {
                     console.error("Error fetching playlists:", error);
                     setLoading(false); 
                 });
-        } else {
-            setLoading(false); 
-        }
+        } else {  setLoading(false); }
+
+
     }, [playlists, setPlaylists]);
 
     if (loading) {
@@ -38,15 +45,12 @@ const ListPlaylist = () => {
         );
     }
 
-    const selectPlaylist = (id: number) => {
-        setPlaylistSelectedId(id);
-    }
 
     return (
         <div className="flex flex-col justify-start items-center gap-6 py-8 px-10 w-full flex-1"> 
             <button 
                 className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlistSelectedId == 0 ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
-                onClick={() => {selectPlaylist(0)}}
+                onClick={() => {selectPlaylist(0, "DEFAULT")}}
             >
                 DEFAULT 
             </button>
@@ -54,7 +58,7 @@ const ListPlaylist = () => {
                 <button 
                     key={playlist.id} 
                     className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlist.id == playlistSelectedId ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
-                    onClick={() => {selectPlaylist(playlist.id)}}
+                    onClick={() => {selectPlaylist(playlist.id, playlist.name)}}
                 >
                     {playlist.name} 
                 </button>

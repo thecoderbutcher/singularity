@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(playlist, { status: 201 });
+
     } catch (error: any) {
         return NextResponse.json({ error: 'Failed to create playlist', details: error.message }, { status: 500 });
     }
