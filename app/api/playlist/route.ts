@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import path from 'path';
 import fs from "fs";
 
-export async function GET() {
+export async function GET(){
     try {
         const userId = 1;
         const playlists = await prisma.playlist.findMany({ where: {userId,}});

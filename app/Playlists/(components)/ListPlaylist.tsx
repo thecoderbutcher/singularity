@@ -2,6 +2,7 @@
  
 import { useEffect, useState  } from "react"
 import usePlaylistsStore from "@/zustand/playlistStore"
+import useSongStore from "@/zustand/songStore";
 
 const ListPlaylist = () => {
     const [loading, setLoading] = useState(true);
@@ -11,6 +12,9 @@ const ListPlaylist = () => {
     const setPlaylistSelectedId = usePlaylistsStore((state) => state.setPlaylistSelectedId);
     const playlistSelectedName = usePlaylistsStore((state) => state.playlistSelectedName)
     const setPlaylistSelectedName = usePlaylistsStore((state) => state.setPlaylistSelectedName) 
+
+    const songOnPlaylist = useSongStore((state) => state.songsOnPlaylist)
+    const setSongsOnPlaylist = useSongStore((state) => state.setSongsOnPlaylist)
     
     const selectPlaylist = (id: number, name:string) => {
         setPlaylistSelectedId(id);
@@ -33,7 +37,6 @@ const ListPlaylist = () => {
                     setLoading(false); 
                 });
         } else {  setLoading(false); }
-
 
     }, [playlists, setPlaylists]);
 

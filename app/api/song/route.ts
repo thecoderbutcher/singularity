@@ -1,8 +1,44 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server" 
+import { NextApiRequest } from "next";
 import { prisma } from "@/lib/prisma" 
 import { parseBlob } from "music-metadata";
 import path from 'path';
 import fs from "fs";
+
+export async function GET(req: Request){ 
+    const { searchParams } = new URL(req.url);
+    const playlistId = searchParams.get('playlistId') 
+    
+    if (!playlistId) {
+        return NextResponse.json(
+            { error: "Missing playlist ID in query params" },
+            { status: 400 }
+        );
+    }
+    try { 
+        const songs = await prisma.song.findMany({
+            where:{
+                playlists:{
+                    some:{
+                        playlistId: parseInt(playlistId, 10),
+                    },
+                },
+            },
+            select:{
+                id:true,
+                title:true,
+                artist:true,
+                album:true,
+                duration:true,
+                path:true,
+            },
+        });
+        return NextResponse.json(songs, {status:200})
+
+    } catch (error:any) {
+        return NextResponse.json({error: "Failed to fetch songs", details: error.message},{status:500})
+    } 
+}
 
 export async function POST(req:Request){
     try {
@@ -36,7 +72,7 @@ export async function POST(req:Request){
 
         const newPlaylistSong = await prisma.playlistSong.create({
             data:{
-                playlistId: parseInt(playlistId),
+                playlistId: parseInt(playlistId as string),
                 songId:songId?.id || 1,
                 position:1
             }
