@@ -3,6 +3,7 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import usePlaylistsStore from "@/zustand/playlistStore"
 import Modal from "@/app/(components)/Modal" 
 import { parseBlob } from "music-metadata";
+import useSongStore from "@/zustand/songStore";
 
 interface ModalAddSongProps {
     isOpen: boolean;
@@ -10,8 +11,9 @@ interface ModalAddSongProps {
 }
 
 const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
-    const playlistId = usePlaylistsStore((state) => state.playlistSelectedId);
-    const playlistName = usePlaylistsStore((state)=> state.playlistSelectedName);
+    
+    const playlistSelected = usePlaylistsStore((state) => state.playlistSelected); 
+    const addSongOnPlaulist = useSongStore((state) => state.addSongOnPlaylist);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const [audioName, setAudioName] = useState<string | null>(null);
     const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -31,35 +33,37 @@ const ModalAddSong: React.FC<ModalAddSongProps> = ({ isOpen, onClose }) => {
 
     const handleSubmit = async (e: React.FormEvent) =>{
         e.preventDefault();
-        if(!audioFile || !playlistId){
+        if(!audioFile || !playlistSelected.id){
             alert("Please select a file and playlist");
             return;
         }
         
         const formData = new FormData(); 
         formData.append("file", audioFile)
-        formData.append("playlistId", playlistId.toString())
-        formData.append("playlistName", playlistName)   
+        formData.append("playlistId", playlistSelected.id.toString())
+        formData.append("playlistName", playlistSelected.name)   
         
         setLoading(true)
-
+        let song 
         try{
             const response = await fetch("/api/song",{
                 method:"POST",
                 body:formData,
             })
 
+            const data = await response.json()    
+            song = data.song  
+
             if(response.ok){
                 setAudioFile(null)
                 onClose()
-            }
-            else{
-                const error = await response.json()                
-            }
+            } 
+          
         } catch(error){
             console.log(error)
-        } finally{
+        }finally{
             setLoading(false)
+           addSongOnPlaulist(song)
         }
     }
 

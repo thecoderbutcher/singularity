@@ -6,20 +6,14 @@ import useSongStore from "@/zustand/songStore";
 
 const ListPlaylist = () => {
     const [loading, setLoading] = useState(true);
+    
     const playlists = usePlaylistsStore((state) => state.playlists);
     const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
-    const playlistSelectedId = usePlaylistsStore((state) => state.playlistSelectedId);
-    const setPlaylistSelectedId = usePlaylistsStore((state) => state.setPlaylistSelectedId);
-    const playlistSelectedName = usePlaylistsStore((state) => state.playlistSelectedName)
-    const setPlaylistSelectedName = usePlaylistsStore((state) => state.setPlaylistSelectedName) 
 
-    const songOnPlaylist = useSongStore((state) => state.songsOnPlaylist)
-    const setSongsOnPlaylist = useSongStore((state) => state.setSongsOnPlaylist)
+    const playlistSelected = usePlaylistsStore((state) => state.playlistSelected);
+    const setPlaylistSelected = usePlaylistsStore((state) => state.setPlaylistSelected);  
     
-    const selectPlaylist = (id: number, name:string) => {
-        setPlaylistSelectedId(id);
-        setPlaylistSelectedName(name);
-    }
+    const selectPlaylist = (id: number, name:string, description?:string) => setPlaylistSelected({ id, name, description });  
 
     useEffect(() => {
         if (!playlists.length) {
@@ -48,20 +42,13 @@ const ListPlaylist = () => {
         );
     }
 
-
     return (
-        <div className="flex flex-col justify-start items-center gap-6 py-8 px-10 w-full flex-1"> 
-            <button 
-                className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlistSelectedId == 0 ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
-                onClick={() => {selectPlaylist(0, "DEFAULT")}}
-            >
-                DEFAULT 
-            </button>
+        <div className="flex flex-col justify-start items-center gap-6 py-8 px-10 w-full flex-1">  
             { playlists.map((playlist) => (    
                 <button 
                     key={playlist.id} 
-                    className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlist.id == playlistSelectedId ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
-                    onClick={() => {selectPlaylist(playlist.id, playlist.name)}}
+                    className={`w-full flex justify-center items-center border border-secondary/20 rounded-md py-2 hover:bg-secondary-dark hover:text-primary hover:scale-110 transition-all duration-200 cursor-pointer ${playlist.id == playlistSelected.id ? 'bg-secondary-dark text-primary-dark' : 'bg-primary-dark/50 text-secondary'}`}
+                    onClick={() => {selectPlaylist(playlist.id, playlist.name, playlist.description)}}
                 >
                     {playlist.name} 
                 </button>

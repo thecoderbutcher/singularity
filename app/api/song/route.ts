@@ -15,6 +15,7 @@ export async function GET(req: Request){
             { status: 400 }
         );
     }
+    
     try { 
         const songs = await prisma.song.findMany({
             where:{

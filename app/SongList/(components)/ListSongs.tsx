@@ -8,11 +8,15 @@ import { error } from "console"
 const ListSongs = () => {
     const songOnPlaylist = useSongStore((state) => state.songsOnPlaylist)
     const setSongsOnPlaylist = useSongStore((state) => state.setSongsOnPlaylist)
-    const playlistSelectedId = usePlaylistStore((state) => state.playlistSelectedId)
-    const playlistSelectedName = usePlaylistStore((state) => state.playlistSelectedName)
+
+    const playlistSelected = usePlaylistStore((state) => state.playlistSelected)
+    const setPlaylistSelected = usePlaylistStore((state) => state.setPlaylistSelected) 
+
+    const songSelected = useSongStore((state) => state.songSelected)
+    const setSongSelected = useSongStore((state) => state.setSongSelected)
 
     useEffect(() => {   
-        fetch(`/api/song?playlistId=${playlistSelectedId}`, {
+        fetch(`/api/song?playlistId=${playlistSelected.id}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         })
@@ -26,7 +30,7 @@ const ListSongs = () => {
         .catch((error) => {
             console.error("Error to load songs", error);
         }) 
-    },[playlistSelectedName, playlistSelectedId])
+    },[playlistSelected, setPlaylistSelected])
 
     if(songOnPlaylist.length < 1){
         return (
@@ -35,11 +39,23 @@ const ListSongs = () => {
             </div>
         )
     }
+
     return (
-        <div className="flex flex-col gap-1 justify-center p-12">
+        <div className="flex flex-col gap-1 justify-center pt-8 px-12">
+            <div className="flex justify-between w-full py-2 px-2 text-lg text-accent-dark items-center border-b border-b-accent-dark">
+                <p className="flex items-center gap-2 font-bold">
+                    <span className="w-1 h-1 bg-accent rounded-full"></span> 
+                    {playlistSelected.description ? playlistSelected.description : playlistSelected.name}
+                </p>
+                <p>00:00:00 - 000</p>
+            </div>
             <div className="flex flex-col">
                 {songOnPlaylist.map((song) => (
-                    <div key={song.id} className="flex justify-between items-center rounded-md pl-2 py-1 hover:bg-accent-dark hover:text-secondary hover:scale-105 transition-all duration-200 cursor-pointer">
+                    <div 
+                        key={song.id} 
+                        className={`flex justify-between items-center rounded-md pl-2 py-1 hover:bg-accent-dark hover:text-secondary hover:scale-105 transition-all duration-200 cursor-pointer ${song.id === songSelected.id? "bg-accent-dark text-secondary" : ""}`}
+                        onClick={() => setSongSelected(song)}
+                    >
                         <p className="flex items-center"> 
                             <span className="w-1 h-1 bg-secondary-dark rounded-full"></span>
                             <span className="pl-4">{song.title} - {song.artist}</span>
