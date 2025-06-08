@@ -4,37 +4,37 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
 ipcMain.on('window:minimize', (event) => {
-  const win = BrowserWindow.getFocusedWindow();
-  if (win) win.minimize();
-});
+  const win = BrowserWindow.getFocusedWindow()
+  if (win) win.minimize()
+})
 
 ipcMain.on('window:maximize', (event) => {
-  const win = BrowserWindow.getFocusedWindow();
+  const win = BrowserWindow.getFocusedWindow()
   if (win) {
     if (win.isMaximized()) {
-      win.unmaximize();
+      win.unmaximize()
     } else {
-      win.maximize();
+      win.maximize()
     }
   }
-});
+})
 
 ipcMain.on('window:close', (event) => {
-  const win = BrowserWindow.getFocusedWindow();
-  if (win) win.close();
-});
+  const win = BrowserWindow.getFocusedWindow()
+  if (win) win.close()
+})
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 900,
-    minWidth: 1000,        // 👈 Tamaño mínimo horizontal
-    minHeight: 900,       // 👈 Tamaño mínimo vertical
-    frame: false,         // 👈 Elimina el borde de la ventana (sin marco)
-    center: true,         // 👈 Inicia centrada
-    resizable: true,      // 👈 Permitimos redimensionar
-    maximizable: true,    // 👈 Permitimos maximizar
+    width: 800,
+    height: 600,
+    minWidth: 800, // 👈 Tamaño mínimo horizontal
+    minHeight: 600, // 👈 Tamaño mínimo vertical
+    frame: false, // 👈 Elimina el borde de la ventana (sin marco)
+    center: true, // 👈 Inicia centrada
+    resizable: true, // 👈 Permitimos redimensionar
+    maximizable: true, // 👈 Permitimos maximizar
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
