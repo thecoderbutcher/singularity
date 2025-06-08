@@ -6,7 +6,8 @@ import {
   HiMiniRectangleStack,
   HiStop
 } from 'react-icons/hi2'
-const ControlSong = () => {
+
+function ControlSong(): React.JSX.Element {
   return (
     <div className="col-span-4 2xl:col-span-3 flex h-full w-full gap-1 lg:gap-2 text-2xl lg:text-4xl xl:text-5xl">
       <button className="w-full p-1 lg:p-2 border border-secondary text-secondary flex justify-center items-center hover:text-primary hover:bg-accent hover:border-accent rounded-md hover:scale-125 transition-all duration-200">

@@ -1,5 +1,6 @@
 import { HiSpeakerWave, HiMiniSparkles } from 'react-icons/hi2'
-const ControlProgress = () => {
+
+function ControlProgress(): React.JSX.Element {
   return (
     <div className="col-span-7  2xl:col-span-8 flex flex-col justify-end">
       <div className="flex justify-between items-center">
