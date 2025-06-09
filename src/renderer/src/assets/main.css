@@ -11,7 +11,9 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717; 
+  --foreground: #171717;
+  scrollbar-color: #f45570 #1c2830;
+  scrollbar-width: thin; 
 }
 
 @media (prefers-color-scheme: dark) {

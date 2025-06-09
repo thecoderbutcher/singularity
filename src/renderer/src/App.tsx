@@ -7,9 +7,9 @@ import SongList from './SongList/SongList'
 
 function App(): React.JSX.Element {
   return (
-    <main className="flex flex-col w-full h-screen bg-primary/70 rounded-2xl">
+    <main className="flex flex-col w-full h-screen bg-primary/70 rounded-2xl overflow-auto">
       <Header />
-      <div className="grid flex-1 grid-cols-12">
+      <div className="grid flex-1 grid-cols-12 overflow-auto">
         <MusicDetails />
         <SongList />
         <PlayList />

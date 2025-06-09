@@ -18,6 +18,6 @@ export const initialState: State = {
 }
 
 export const PlaylistContext = createContext<{
-  state: State
-  dispatch: React.Dispatch<Action>
-}>({ state: initialState, dispatch: () => undefined })
+  playlistState: State
+  playlistDispatch: React.Dispatch<Action>
+}>({ playlistState: initialState, playlistDispatch: () => undefined })

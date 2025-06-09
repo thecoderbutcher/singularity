@@ -1,9 +1,14 @@
 import { PlaylistProvider } from './PlaylistContext/PlaylistProvider'
+import { SongProvider } from './SongContext/SongProvider'
 
 export const ContextProvider = ({
   children
 }: {
   children: React.ReactNode
 }): React.ReactElement => {
-  return <PlaylistProvider>{children}</PlaylistProvider>
+  return (
+    <PlaylistProvider>
+      <SongProvider>{children}</SongProvider>
+    </PlaylistProvider>
+  )
 }

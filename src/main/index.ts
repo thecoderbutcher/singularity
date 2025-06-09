@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import './ipc/scan-folder-handler'
 import './presentation/createPlaylistHandler'
 import './presentation/getAllPlaylistsHandler'
+import './presentation/getAllSongsHandler'
 
 ipcMain.on('window:minimize', (event) => {
   const win = BrowserWindow.getFocusedWindow()

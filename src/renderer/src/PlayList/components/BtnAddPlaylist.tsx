@@ -5,13 +5,13 @@ import { Playlist } from '@prisma/client'
 import { usePlaylists } from '@renderer/context/PlaylistContext/PlaylistHook'
 
 function BtnAddPlaylist(): React.JSX.Element {
-  const { dispatch } = usePlaylists()
+  const { playlistDispatch } = usePlaylists()
   const [showModal, setShowModal] = useState(false)
 
   const handleAdd = (): void => setShowModal(true)
 
   const handleCreated = (newPlaylist: Playlist): void => {
-    dispatch({ type: 'ADD_PLAYLISTS', payload: newPlaylist })
+    playlistDispatch({ type: 'ADD_PLAYLISTS', payload: newPlaylist })
   }
   return (
     <>

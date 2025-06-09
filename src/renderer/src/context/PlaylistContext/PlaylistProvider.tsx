@@ -20,7 +20,11 @@ export const PlaylistProvider = ({
 }: {
   children: React.ReactNode
 }): React.ReactElement => {
-  const [state, dispatch] = useReducer(playlistReducer, initialState)
+  const [playlistState, playlistDispatch] = useReducer(playlistReducer, initialState)
 
-  return <PlaylistContext.Provider value={{ state, dispatch }}>{children}</PlaylistContext.Provider>
+  return (
+    <PlaylistContext.Provider value={{ playlistState, playlistDispatch }}>
+      {children}
+    </PlaylistContext.Provider>
+  )
 }

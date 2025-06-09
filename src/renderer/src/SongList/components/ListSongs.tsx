@@ -1,8 +1,15 @@
-import { usePlaylists } from '@renderer/context/PlaylistContext/PlaylistHook'
+import { useSongs } from '@renderer/context/SongContext/SongHook'
 
 function ListSongs(): React.JSX.Element {
-  const { state } = usePlaylists()
+  const { songState } = useSongs()
 
+  if (songState.songs.length === 0) {
+    return (
+      <div className="flex flex-col h-full justify-center items-center text-secondary/50 cursor-pointer">
+        Aun no se han agregado mp3
+      </div>
+    )
+  }
   return (
     <div className="flex flex-col gap-1 justify-center p-1 lg:pt-4 lg:px-4 ">
       <div className="flex justify-between w-full py-2 px-2 text-lg text-accent-dark items-center border-b border-b-accent-dark">
