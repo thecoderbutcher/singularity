@@ -3,6 +3,8 @@ import { Action, initialState, PlaylistContext, State } from './PlaylistContext'
 
 function playlistReducer(state: State, action: Action): State {
   switch (action.type) {
+    case 'SELECT_PLAYLIST':
+      return { ...state, playlistSelected: action.payload }
     case 'SET_PLAYLISTS':
       return { ...state, playlists: action.payload }
     case 'ADD_PLAYLISTS':
