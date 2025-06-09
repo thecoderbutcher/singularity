@@ -1,6 +1,6 @@
 function ListSongs(): React.JSX.Element {
   return (
-    <div className="flex flex-col gap-1 justify-center pt-8 px-12">
+    <div className="flex flex-col gap-1 justify-center p-1 lg:pt-4 lg:px-4 ">
       <div className="flex justify-between w-full py-2 px-2 text-lg text-accent-dark items-center border-b border-b-accent-dark">
         <p className="flex items-center gap-2 font-bold">
           <span className="w-1 h-1 bg-accent rounded-full"></span>

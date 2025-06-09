@@ -1,88 +1,52 @@
-import { useState } from "react";
-import Modal from "@/app/(components)/Modal" 
-import usePlaylistsStore from "@/zustand/playlistStore"
-import { IoAddCircleOutline } from "react-icons/io5";
+import { Playlist } from '@prisma/client'
+import { useState } from 'react'
+import { IoClose } from 'react-icons/io5'
 
-interface AddPlaylistModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+interface CreatePlaylistModalProps {
+  onClose: () => void
+  onCreated: (playlist: Playlist) => void
 }
 
-const ModalAddPlaylist: React.FC<AddPlaylistModalProps> = ({ isOpen, onClose }) => {
-    const [playlistName, setPlaylistName] = useState("");
-    const [playlistDescription, setPlaylistDescription] = useState("");
-    const [userId, setUserId] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+export function CreatePlaylistModal({
+  onClose,
+  onCreated
+}: CreatePlaylistModalProps): React.JSX.Element {
+  const [name, setName] = useState('')
 
-    const addPlalist = usePlaylistsStore((state) => state.addPlaylist);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true);  
-        try {
-            const name = playlistName
-            const description = playlistDescription
-            const response = await fetch("/api/playlist", {
-                method: "POST",
-                headers: { "Content-Type": "application/json",  },
-                body: JSON.stringify({ userId, name, description }),
-            }); 
-            
-            if(!response.ok) throw new Error("Error, playlist not create");
-            
-            const data = await response.json(); 
-            onClose();
-        }
-        catch (err) {
-            const errorMessage = err instanceof Error ? err.message : "Error, playlist not create";
-            setError(errorMessage);
-        }
-        finally {
-            setLoading(false);
-            addPlalist({ id: 1, name: playlistName, description: playlistDescription });
-        }
-
-        const form = e.target as HTMLFormElement; 
-        form.reset();
+  const handleSave = async (): Promise<void> => {
+    if (!name.trim()) {
+      alert('Debe ingresar el nombre de la playlist')
+      return
     }
+    const playlist = await window.electron.ipcRenderer.invoke('playlist:create', name)
+    onCreated(playlist)
+    onClose()
+  }
 
-    return (
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <div className="flex flex-col gap-6 justify-center items-center">
-            <h2 className="flex items-center gap-1 font-semibold text-lg">
-                <IoAddCircleOutline className="text-accent-dark text-2xl"/>
-                <span>Add new playlist</span> 
-            </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4"> 
-                <input 
-                    type="text" 
-                    name="playlistName" 
-                    placeholder="Insert playlist name"
-                    autoComplete="off"
-                    required
-                    onChange={(e) => setPlaylistName(e.target.value)}
-                    className="rounded-lg outline-none px-4 py-1 w-full bg-secondary text-primary focus:outline-accent outline-1" 
-                    />
-                <input type="hidden" name="userId" value={1} />
-                <textarea 
-                    name="description" 
-                    placeholder="Insert playlist description"
-                    required
-                    onChange={(e) => setPlaylistDescription(e.target.value)}
-                    className="rounded-lg outline-none px-4 py-1 w-full bg-secondary text-primary focus:outline-accent outline-1"
-                > 
-                </textarea>
-                <button 
-                    type="submit"
-                    className="bg-secondary/80 text-primary py-1 rounded-md hover:bg-accent hover:text-secondary hover:scale-110 transition-all duration-200"
-                    >
-                    Add playlist
-                </button>
-            </form>
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-primary/80 p-4 rounded-md w-[300px] shadow-lg">
+        <div className="flex justify-between mb-4">
+          <h2 className="text-lg font-bold">Nueva lista</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-red-500">
+            <IoClose className="text-2xl" />
+          </button>
         </div>
-    </Modal>
+        <input
+          type="text"
+          placeholder="Nombre de la lista"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="w-full border border-secondary/50 focus:outline-none rounded-md p-2 mb-4"
+        />
+        <button
+          onClick={handleSave}
+          className="bg-accent-dark text-secondary font-semibold px-4 py-2 rounded-md w-full"
+        >
+          Agregar
+        </button>
+      </div>
+    </div>
   )
 }
-
-export default ModalAddPlaylist
