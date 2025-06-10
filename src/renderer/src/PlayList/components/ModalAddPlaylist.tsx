@@ -1,16 +1,13 @@
 import { useState } from 'react'
-import { Playlist } from '@prisma/client'
 import Modal from '@renderer/components/Modal'
+import { usePlaylists } from '@renderer/context/PlaylistContext/PlaylistHook'
 
 interface CreatePlaylistModalProps {
   onClose: () => void
-  onCreated: (playlist: Playlist) => void
 }
 
-export function CreatePlaylistModal({
-  onClose,
-  onCreated
-}: CreatePlaylistModalProps): React.JSX.Element {
+export function CreatePlaylistModal({ onClose }: CreatePlaylistModalProps): React.JSX.Element {
+  const { playlistDispatch } = usePlaylists()
   const [name, setName] = useState('')
 
   const handleSave = async (): Promise<void> => {
@@ -19,7 +16,7 @@ export function CreatePlaylistModal({
       return
     }
     const playlist = await window.electron.ipcRenderer.invoke('playlist:create', name)
-    onCreated(playlist)
+    playlistDispatch({ type: 'ADD_PLAYLISTS', payload: playlist })
     onClose()
   }
 
