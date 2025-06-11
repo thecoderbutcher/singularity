@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
@@ -8,12 +8,12 @@ import './presentation/getAllPlaylistsHandler'
 import './presentation/getAllSongsHandler'
 import './presentation/addSongHandler'
 
-ipcMain.on('window:minimize', (event) => {
+ipcMain.on('window:minimize', () => {
   const win = BrowserWindow.getFocusedWindow()
   if (win) win.minimize()
 })
 
-ipcMain.on('window:maximize', (event) => {
+ipcMain.on('window:maximize', () => {
   const win = BrowserWindow.getFocusedWindow()
   if (win) {
     if (win.isMaximized()) {
@@ -24,9 +24,18 @@ ipcMain.on('window:maximize', (event) => {
   }
 })
 
-ipcMain.on('window:close', (event) => {
+ipcMain.on('window:close', () => {
   const win = BrowserWindow.getFocusedWindow()
   if (win) win.close()
+})
+
+ipcMain.handle('dialog:openFile', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [{ name: 'Audio', extensions: ['mp3'] }]
+  })
+  if (canceled) return null
+  return filePaths[0]
 })
 
 function createWindow(): void {
@@ -45,7 +54,9 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false
+      sandbox: false,
+      webSecurity: true, // ✅ por seguridad
+      allowRunningInsecureContent: false // ✅ también lo evitamos
     }
   })
 

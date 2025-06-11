@@ -17,7 +17,7 @@ const Modal: React.FC<ModalProps> = ({ title, action, children, isOpen, onClose 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center gap-4 z-50 bg-black/50">
       {/* Contenedor de la Modal */}
       <div className="bg-primary/80 w-96 rounded-lg shadow-lg shadow-accent-dark/20 p-6 relative">
         {/* Botón para cerrar */}

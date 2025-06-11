@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import fs from 'fs'
 
 // Custom APIs for renderer
 const api = {}
@@ -22,6 +23,16 @@ if (process.contextIsolated) {
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  openFile: () => ipcRenderer.invoke('dialog:openFile'),
+  getAudioPreview: (filePath: string) =>
+    new Promise((resolve, reject) => {
+      fs.readFile(filePath, (err, data) => {
+        if (err) return reject(err)
+        const blob = new Blob([data], { type: 'audio/mpeg' })
+        const url = URL.createObjectURL(blob)
+        resolve(url)
+      })
+    }),
   minimize: () => ipcRenderer.send('window:minimize'),
   maximize: () => ipcRenderer.send('window:maximize'),
   close: () => ipcRenderer.send('window:close'),

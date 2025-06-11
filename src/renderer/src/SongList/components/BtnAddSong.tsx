@@ -1,22 +1,18 @@
+import { PiMusicNotesPlusFill } from 'react-icons/pi'
 import { AddSongModal } from './ModalAddSong'
 import { useState } from 'react'
 
-import { PiMusicNotesPlusFill } from 'react-icons/pi'
-
 function BtnAddSong(): React.JSX.Element {
   const [showModal, setShowModal] = useState(false)
-  const addsong = (): void => {
-    setShowModal(true)
-  }
+  const addsong = (): void => setShowModal(true)
   return (
     <>
-      <button
-        onClick={addsong}
-        className="border border-accent/80 text-accent px-2 py-1 rounded-md hover:bg-accent hover:text-primary hover:scale-125 transition-all duration-200"
-      >
-        <PiMusicNotesPlusFill />
-      </button>
-      {showModal && <AddSongModal onClose={() => setShowModal(false)} onCreated={() => {}} />}
+      <div className="flex items-center justify-center border border-accent text-accent p-1 text-base hover:scale-125 hover:text-primary hover:bg-accent rounded-md transition-all duration-200">
+        <button onClick={addsong}>
+          <PiMusicNotesPlusFill />
+        </button>
+      </div>
+      {showModal && <AddSongModal onClose={() => setShowModal(false)} />}
     </>
   )
 }
