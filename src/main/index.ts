@@ -6,6 +6,7 @@ import './ipc/scan-folder-handler'
 import './presentation/createPlaylistHandler'
 import './presentation/getAllPlaylistsHandler'
 import './presentation/getAllSongsHandler'
+import './presentation/addSongHandler'
 
 ipcMain.on('window:minimize', (event) => {
   const win = BrowserWindow.getFocusedWindow()

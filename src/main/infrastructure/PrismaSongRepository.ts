@@ -6,4 +6,24 @@ export class PrismaSongRepository implements SongRepository {
   async getAll(playlistId: number): Promise<Song[]> {
     return await prisma.song.findMany({ where: { playlistId }, orderBy: { createdAt: 'desc' } })
   }
+
+  async add(
+    playlistId: number,
+    title: string,
+    artist: string,
+    album: string,
+    duration: number,
+    path: string
+  ): Promise<Song> {
+    return await prisma.song.create({
+      data: {
+        playlistId,
+        title,
+        artist,
+        album,
+        duration,
+        path
+      }
+    })
+  }
 }

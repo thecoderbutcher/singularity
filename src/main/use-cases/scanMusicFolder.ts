@@ -1,4 +1,4 @@
-import fg from 'fast-glob'
+/* import fg from 'fast-glob'
 import path from 'path'
 import fs from 'fs'
 import { parseFile } from 'music-metadata'
@@ -10,7 +10,7 @@ export type AudioFile = {
 }
 
 export async function scanMusicFolder(folderPath: string): Promise<AudioFile[]> {
-  const files = await fg(['**/*.mp3'], { cwd: folderPath, absolute: true })
+  const files = await fg(['**/ /* *.mp3'], { cwd: folderPath, absolute: true })
 
   const results: AudioFile[] = []
 
@@ -28,4 +28,4 @@ export async function scanMusicFolder(folderPath: string): Promise<AudioFile[]> 
   }
 
   return results
-}
+} */
