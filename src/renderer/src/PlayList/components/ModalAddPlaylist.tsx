@@ -1,7 +1,7 @@
+import Modal from '@renderer/components/Modal'
 import { useState } from 'react'
 import { Playlist } from '@prisma/client'
 import { usePlaylists } from '@renderer/context/PlaylistContext/PlaylistHook'
-import Modal from '@renderer/components/Modal'
 
 interface CreatePlaylistModalProps {
   onClose: () => void

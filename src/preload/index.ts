@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import fs from 'fs'
+import { parseBuffer } from 'music-metadata'
 
 // Custom APIs for renderer
 const api = {}
@@ -23,6 +24,9 @@ if (process.contextIsolated) {
 }
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  minimize: () => ipcRenderer.send('window:minimize'),
+  maximize: () => ipcRenderer.send('window:maximize'),
+  close: () => ipcRenderer.send('window:close'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
   getAudioPreview: (filePath: string) =>
     new Promise((resolve, reject) => {
@@ -33,8 +37,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
         resolve(url)
       })
     }),
-  minimize: () => ipcRenderer.send('window:minimize'),
-  maximize: () => ipcRenderer.send('window:maximize'),
-  close: () => ipcRenderer.send('window:close'),
+  readMetadata: (filePath: string) =>
+    new Promise((resolve, reject) => {
+      fs.readFile(filePath, async (err, buffer) => {
+        if (err) return reject(err)
+        try {
+          const metadata = await parseBuffer(buffer, 'audio/mpeg')
+          resolve({ ...metadata.common, duration: metadata.format.duration })
+        } catch (e) {
+          reject(e)
+        }
+      })
+    }),
   ipcRenderer
 })
