@@ -21,6 +21,7 @@ model Song {
   album       String
   duration    Int
   path        String
+  cover       String?
   progressSec Int      @default(0)
   playlistId  Int
   playlist    Playlist @relation(fields: [playlistId], references: [id])
