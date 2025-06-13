@@ -43,7 +43,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
         if (err) return reject(err)
         try {
           const metadata = await parseBuffer(buffer, 'audio/mpeg')
-          resolve({ ...metadata.common, duration: metadata.format.duration })
+          const picture = metadata.common.picture?.[0]
+          let imageBase64
+
+          if (picture) {
+            const base64 = Buffer.from(picture.data).toString('base64')
+            imageBase64 = `data:${picture.format};base64,${base64}`
+          }
+
+          resolve({ ...metadata.common, duration: metadata.format.duration, cover: imageBase64 })
         } catch (e) {
           reject(e)
         }
