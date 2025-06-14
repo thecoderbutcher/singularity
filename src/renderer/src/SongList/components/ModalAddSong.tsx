@@ -17,7 +17,6 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
 
   const handleFileChange = async (): Promise<void> => {
     const filePath = await window.electronAPI.openFile()
-    console.log(filePath)
     if (filePath) {
       const audioURL = await window.electronAPI.getAudioPreview(filePath)
       const meta = await window.electronAPI.readMetadata(filePath)
@@ -34,7 +33,8 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
       title: metadata.title || 'Titulo desconocido',
       artist: metadata.artist || 'Artista desconocido',
       album: metadata.album || 'Album desconocido',
-      duration: metadata.duration || 0
+      duration: metadata.duration || 0,
+      cover: metadata.cover || 'none'
     }
     const song: Song = await window.electron.ipcRenderer.invoke(
       'song:add',
@@ -43,6 +43,7 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
       data.artist,
       data.album,
       data.duration,
+      data.cover,
       fileSrc
     )
     songDispatch({ type: 'ADD_SONGS', payload: song })

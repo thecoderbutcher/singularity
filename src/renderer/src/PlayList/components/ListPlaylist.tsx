@@ -8,11 +8,6 @@ function ListPlaylist(): React.JSX.Element {
   const { playlistState, playlistDispatch } = usePlaylists()
   const { songDispatch } = useSongs()
 
-  const loadPlaylists = useCallback(async (): Promise<void> => {
-    const data = await window.electron.ipcRenderer.invoke('playlist:getAll')
-    playlistDispatch({ type: 'SET_PLAYLISTS', payload: data })
-  }, [playlistDispatch])
-
   const loadSongs = useCallback(
     async (playlistId: number): Promise<void> => {
       const data = await window.electron.ipcRenderer.invoke('song:getAll', playlistId)
@@ -20,6 +15,11 @@ function ListPlaylist(): React.JSX.Element {
     },
     [songDispatch]
   )
+
+  const loadPlaylists = useCallback(async (): Promise<void> => {
+    const data = await window.electron.ipcRenderer.invoke('playlist:getAll')
+    playlistDispatch({ type: 'SET_PLAYLISTS', payload: data })
+  }, [playlistDispatch])
 
   useEffect(() => {
     loadPlaylists()

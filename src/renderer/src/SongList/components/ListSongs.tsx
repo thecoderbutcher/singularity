@@ -1,16 +1,12 @@
 import { usePlaylists } from '@renderer/context/PlaylistContext/PlaylistHook'
 import { useSongs } from '@renderer/context/SongContext/SongHook'
-import { LuListMusic } from 'react-icons/lu'
+import { LuListMusic, LuDot } from 'react-icons/lu'
+import ScrollTextHover from './ScrollTextHover'
+import { formatDuration } from '../../assets/lib/index'
 
 function ListSongs(): React.JSX.Element {
-  const { songState } = useSongs()
+  const { songState, songDispatch } = useSongs()
   const { playlistState } = usePlaylists()
-
-  function formatDuration(seconds: number): string {
-    const minute = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${String(minute).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
-  }
 
   if (songState.songs.length === 0) {
     return (
@@ -21,9 +17,11 @@ function ListSongs(): React.JSX.Element {
   }
   return (
     <div className="flex flex-col gap-1 justify-center p-1 lg:pt-4 lg:px-4 ">
-      <div className="flex justify-between w-full py-2 px-2 text-lg text-accent-dark items-center border-b border-b-accent-dark">
+      <div className="flex justify-between w-full py-2 text-lg text-accent-dark items-center border-b border-b-accent-dark">
         <p className="flex items-center gap-2 font-semibold text-base">
-          <span className="w-1 h-1 bg-accent rounded-full"></span>
+          <span className="text-accent text-2xl">
+            <LuDot />
+          </span>
           {playlistState.playlistSelected?.name}
         </p>
         <p className="flex gap-1 items-center text-xs">
@@ -35,14 +33,19 @@ function ListSongs(): React.JSX.Element {
         {songState.songs.map((song) => (
           <div
             key={song.id}
-            className={`flex justify-between items-center rounded-md pl-2 py-1 hover:bg-accent-dark hover:text-secondary hover:scale-105 w-full transition-all duration-200 cursor-pointer `}
+            onClick={() => songDispatch({ type: 'SELECT_SONG', payload: song })}
+            className={`flex justify-between items-center rounded-md pl-1 py-1 hover:bg-accent-dark hover:text-secondary hover:scale-105 w-full transition-all duration-200 cursor-pointer ${songState.songSelected?.id === song.id ? 'bg-accent-dark text-secondary' : ''}`}
           >
-            <p className="flex items-center">
-              <span className="w-1 h-1 bg-secondary-dark rounded-full"></span>
-              <span className="pl-4 text-sm">
-                {song.title} - {song.artist}
+            <div className="flex items-center overflow-hidden pr-2 w-full">
+              <span className="text-secondary-dark text-2xl">
+                <LuDot />
               </span>
-            </p>
+
+              <div className="flex flex-col overflow-hidden">
+                <ScrollTextHover>{song.title}</ScrollTextHover>
+                <p className="text-xs text-secondary/60 font-extralight">{song.artist}</p>
+              </div>
+            </div>
             <p className="pr-2">{formatDuration(song.duration)}</p>
           </div>
         ))}
