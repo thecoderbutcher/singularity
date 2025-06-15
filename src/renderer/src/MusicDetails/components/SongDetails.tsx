@@ -9,10 +9,14 @@ function SongDetails(): React.JSX.Element {
       ? Cover
       : songState.songSelected?.cover
   return (
-    <div className="flex flex-1 flex-col gap-2 mt-4">
+    <div className="flex flex-1 flex-col gap-2 py-2 px-4">
       <div className="w-full flex flex-col justify-center items-center">
-        <div className="border-4 border-slate rounded-md ">
-          <img src={songCover} alt="cover" className=" object-cover" />
+        <div className="border-2 border-accent rounded-lg">
+          <img
+            src={songCover}
+            alt="cover"
+            className=" w-[250px] h-[180px] rounded-md object-cover"
+          />
         </div>
       </div>
       <div className="flex gap-1 items-center">
