@@ -13,6 +13,7 @@ export class PrismaSongRepository implements SongRepository {
     artist: string,
     album: string,
     duration: number,
+    cover: string,
     path: string
   ): Promise<Song> {
     return await prisma.song.create({
@@ -22,6 +23,7 @@ export class PrismaSongRepository implements SongRepository {
         artist,
         album,
         duration,
+        cover,
         path
       }
     })

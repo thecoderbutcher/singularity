@@ -9,6 +9,7 @@ export interface SongRepository {
     artist: string,
     album: string,
     duration: number,
+    cover: string,
     path: string
   ): Promise<Song>
 }

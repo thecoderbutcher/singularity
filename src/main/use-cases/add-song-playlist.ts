@@ -7,6 +7,7 @@ export async function addSongPlaylist(
   artist: string,
   album: string,
   duration: number,
+  cover: string,
   path: string
 ): Promise<Song> {
   const song = await prisma.song.create({
@@ -15,6 +16,7 @@ export async function addSongPlaylist(
       artist,
       album,
       duration,
+      cover,
       path,
       playlistId
     }

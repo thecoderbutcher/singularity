@@ -9,8 +9,9 @@ export class AddSong {
     artist: string,
     album: string,
     duration: number,
+    cover: string,
     path: string
   ): Promise<ReturnType<SongRepository['add']>> {
-    return await this.repo.add(playlistId, title, artist, album, duration, path)
+    return await this.repo.add(playlistId, title, artist, album, duration, cover, path)
   }
 }

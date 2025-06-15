@@ -14,8 +14,9 @@ ipcMain.handle(
     artist: string,
     album: string,
     duration: number,
+    cover: string,
     path: string
   ) => {
-    return await useCase.execute(playlistId, title, artist, album, duration, path)
+    return await useCase.execute(playlistId, title, artist, album, duration, cover, path)
   }
 )
