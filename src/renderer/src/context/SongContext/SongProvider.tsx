@@ -9,6 +9,8 @@ function SongReducer(state: State, action: Action): State {
       return { ...state, songPlaying: action.payload }
     case 'SET_PLAY':
       return { ...state, isPlaying: action.payload }
+    case 'SET_AUDIO':
+      return { ...state, audio: action.payload }
     case 'SET_SONGS':
       return { ...state, songs: action.payload }
     case 'ADD_SONGS':

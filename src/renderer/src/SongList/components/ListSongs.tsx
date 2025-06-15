@@ -16,7 +16,7 @@ function ListSongs(): React.JSX.Element {
     )
   }
   return (
-    <div className="flex flex-col gap-1 justify-center p-1 lg:pt-4 lg:px-4 ">
+    <div className="flex flex-col gap-1  p-1 lg:px-4 overflow-y-auto overflow-x-hidden">
       <div className="flex justify-between w-full py-2 text-lg text-accent-dark items-center border-b border-b-accent-dark">
         <p className="flex items-center gap-2 font-semibold text-base">
           <span className="text-accent text-2xl">

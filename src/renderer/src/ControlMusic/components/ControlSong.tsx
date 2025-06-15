@@ -1,4 +1,5 @@
 import { useSongs } from '@renderer/context/SongContext/SongHook'
+import { useEffect, useRef } from 'react'
 import {
   HiMiniPlay,
   HiMiniPause,
@@ -10,12 +11,11 @@ import {
 
 function ControlSong(): React.JSX.Element {
   const { songState, songDispatch } = useSongs()
+  const audioRef = useRef<HTMLAudioElement>(null)
 
-  const handlePlayPause = (): void => {
-    if (!songState.songSelected) return
+  useEffect(() => {})
+  const handlePlayPause = (): void => {}
 
-    songDispatch({ type: 'SET_PLAY', payload: !songState.isPlaying })
-  }
   return (
     <div className="col-span-4 2xl:col-span-3 flex h-full w-full gap-1 lg:gap-2 text-2xl lg:text-4xl xl:text-5xl">
       <button className="w-full p-1 lg:p-2 border border-secondary text-secondary flex justify-center items-center hover:text-primary hover:bg-accent hover:border-accent rounded-md hover:scale-110 transition-all duration-200">
@@ -36,6 +36,7 @@ function ControlSong(): React.JSX.Element {
       <button className="w-full p-1 lg:p-2 border border-secondary text-secondary flex justify-center items-center hover:text-primary hover:bg-accent hover:border-accent rounded-md hover:scale-110 transition-all duration-200">
         <HiMiniRectangleStack />
       </button>
+      <audio ref={audioRef} preload="none" />
     </div>
   )
 }
