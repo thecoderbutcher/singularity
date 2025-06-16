@@ -10,7 +10,6 @@ interface AddSongModalProps {
 
 export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element {
   const [audioSrc, setAudioSrc] = useState<string | null>(null)
-  const [fileSrc, setFileSrc] = useState<string | null>(null)
   const [metadata, setMetadata] = useState(null)
   const { playlistState } = usePlaylists()
   const { songDispatch } = useSongs()
@@ -22,7 +21,6 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
       const meta = await window.electronAPI.readMetadata(filePath)
       setAudioSrc(audioURL as string)
       setMetadata(meta)
-      setFileSrc(filePath)
     }
   }
 
@@ -44,7 +42,7 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
       data.album,
       data.duration,
       data.cover,
-      fileSrc
+      audioSrc
     )
     songDispatch({ type: 'ADD_SONGS', payload: song })
     onClose()
@@ -55,6 +53,7 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
         <button onClick={handleFileChange}>Seleccione archivo</button>
         {audioSrc && (
           <div className="flex flex-col gap-4 mt-4">
+            <p>{audioSrc}</p>
             <audio controls src={audioSrc} className="w-full ">
               Does not support the audio element.
             </audio>
