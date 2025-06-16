@@ -1,5 +1,5 @@
 import { useSongs } from '@renderer/context/SongContext/SongHook'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   HiMiniPlay,
   HiMiniPause,
@@ -11,6 +11,7 @@ import {
 
 function ControlSong(): React.JSX.Element {
   const { songState, songDispatch } = useSongs()
+  const [audioSrc, setAudioSrc] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
@@ -48,7 +49,7 @@ function ControlSong(): React.JSX.Element {
     }
   }, [songDispatch])
 
-  const handlePlayPause = (): void => {
+  const handlePlayPause = async (): Promise<void> => {
     if (!audioRef.current || !songState.songSelected) return
     songDispatch({ type: 'SET_PLAY', payload: !songState.isPlaying })
   }

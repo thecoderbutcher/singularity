@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   maximize: () => ipcRenderer.send('window:maximize'),
   close: () => ipcRenderer.send('window:close'),
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  getAudioPreview: (filePath: string) =>
+  getAudio: (filePath: string) =>
     new Promise((resolve, reject) => {
       fs.readFile(filePath, (err, data) => {
         if (err) return reject(err)
