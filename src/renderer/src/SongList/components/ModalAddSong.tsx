@@ -23,6 +23,7 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
       setAudioSrc(audioURL as string)
       setMetadata(meta)
       setFileSrc(filePath)
+      console.log(audioSrc)
     }
   }
 
@@ -47,6 +48,7 @@ export function AddSongModal({ onClose }: AddSongModalProps): React.JSX.Element 
       fileSrc
     )
     songDispatch({ type: 'ADD_SONGS', payload: song })
+    console.log(audioSrc)
     onClose()
   }
   return (
