@@ -1,10 +1,10 @@
 {
-  "name": "my-app",
+  "name": "singularity",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
-  "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "description": "An MP3 player to redefine your music",
+  "main": "out/main/index.js",
+  "author": "thecoderbutcher <thecoderbutcher@gmail.com> (thecoderbutcher.site)",
+  "homepage": "https://thecoderbutcher.site",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
@@ -13,8 +13,10 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "npm run typecheck && electron-vite build",
-    "postinstall": "electron-builder install-app-deps",
+    "build": "npx prisma generate && electron-vite build",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "electron-builder install-app-deps && npx prisma generate",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
@@ -30,7 +32,8 @@
     "prisma": "^6.9.0",
     "react-icons": "^5.5.0",
     "sqlite3": "^5.1.7",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "wavesurfer.js": "^7.9.5"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
@@ -52,5 +55,38 @@
     "react-dom": "^19.1.0",
     "typescript": "^5.8.3",
     "vite": "^6.2.6"
+  },
+  "build": {
+    "appId": "com.thecoderbutcher.singularity",
+    "productName": "Singularity",
+    "extraMetadata": {
+      "main": "out/main/index.js"
+    },
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/main/**/*",
+      "out/preload/**/*",
+      "out/renderer/**/*",
+      "node_modules/**/*",
+      "package.json",
+      ".prisma/**/*",
+      "prisma/schema.prisma"
+    ],
+    "extraFiles": [],
+    "win": {
+      "target": "nsis",
+      "icon": "resources/singularity.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "resources/singularity.png",
+      "category": "Audio"
+    }
   }
 }
