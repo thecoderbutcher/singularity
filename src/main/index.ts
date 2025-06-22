@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { join } from 'path'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/singularity.ico?asset'
 import './ipc/scan-folder-handler'
 import './presentation/createPlaylistHandler'
 import './presentation/getAllPlaylistsHandler'
