@@ -1,5 +1,5 @@
 import { useSongs } from '@renderer/context/SongContext/SongHook'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   HiMiniPlay,
   HiMiniPause,
